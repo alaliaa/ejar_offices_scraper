@@ -2,19 +2,7 @@
 
 This project contains a Python script that scrapes real estate brokerage office information from the Ejar website (ejar.sa) and can send notifications and data via WhatsApp.
 
-## Features
 
-- Scrapes brokerage office details including name, district, phone number, and rating.
-- Paginates through search results to collect data from multiple pages.
-- Saves the scraped data to a CSV file (`ejar_offices.csv`).
-- Formats and sends a detailed report of scraped offices to a specified WhatsApp number.
-- Sends a premade message to all unique phone numbers collected from the scrape.
-- Handles different phone number formats for sending WhatsApp messages.
-
-## Prerequisites
-
-- Python 3.x
-- Google Chrome installed
 
 ## Installation
 
@@ -46,28 +34,32 @@ This project contains a Python script that scrapes real estate brokerage office 
     python main.py
     ```
 
-## Script Overview
+## Project Structure
 
-### Functions
+The project is organized into three main Python files:
 
--   `scrape_ejar(url, number_of_pages, save_to_csv=False)`:
-    -   Takes an Ejar URL and the number of pages to scrape.
-    -   Returns a list of dictionaries, where each dictionary represents a brokerage office.
-    -   If `save_to_csv` is `True`, it creates `ejar_offices.csv`.
+### `main.py`
+- This is the main entry point of the application.
+- It handles the overall workflow:
+  1.  Sets the configuration parameters (URL, number of pages, etc.).
+  2.  Calls the scraping function from `scraper.py`.
+  3.  Based on the `send_me` flag, it either:
+      - Formats and sends a detailed report to your number using functions from `whatsapp_utils.py`.
+      - Sends a premade message to all scraped offices using functions from `whatsapp_utils.py`.
 
--   `send_whatsapp_message(recipient_number, message)`:
-    -   Sends a given `message` to the `recipient_number` via WhatsApp.
+### `scraper.py`
+- Contains all the web scraping logic.
+- `scrape_ejar(url, number_of_pages, save_to_csv=False)`:
+  -   Takes an Ejar URL and the number of pages to scrape.
+  -   Returns a list of dictionaries, where each dictionary represents a brokerage office.
+  -   If `save_to_csv` is `True`, it creates `ejar_offices.csv`.
 
--   `send_premade_messages_to_offices(offices, message)`:
-    -   Iterates through the list of `offices`, extracts unique phone numbers, and sends them a `message`.
-    -   Schedules messages with a one-minute interval between them to avoid issues.
+### `whatsapp_utils.py`
+- Contains all the functions related to sending WhatsApp messages.
+- `send_whatsapp_message(recipient_number, message)`:
+  -   Sends a given `message` to the `recipient_number` via WhatsApp.
+- `send_premade_messages_to_offices(offices, message)`:
+  -   Iterates through the list of `offices`, extracts unique phone numbers, and sends them a `message`.
+- `format_offices_for_whatsapp(offices)`:
+  -   Takes the list of `offices` and formats it into a clean, readable string for a WhatsApp message.
 
--   `format_offices_for_whatsapp(offices)`:
-    -   Takes the list of `offices` and formats it into a clean, readable string for a WhatsApp message.
-
-## Dependencies
-
-- `requests`: For making HTTP requests to the website.
-- `beautifulsoup4`: For parsing HTML and extracting data.
-- `pandas`: For creating and managing data in a structured way (i.e., CSV).
-- `pywhatkit`: For automating WhatsApp messages. 
