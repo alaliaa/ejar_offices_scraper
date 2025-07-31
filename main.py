@@ -21,7 +21,7 @@ if __name__ == "__main__":
     target_url = "https://www.ejar.sa/ar/brokerage-offices?region=169&city=196&district=All&name=&field_bo_rating_value=All"
 
 
-    scraped_offices = scrape_ejar(target_url, number_of_pages,save_to_csv=False)
+    scraped_offices = scrape_ejar(target_url, number_of_pages,save_to_csv=True)
     number_of_offices = len(scraped_offices)
     print(f"Total number of offices: {number_of_offices}")
     scraped_offices = scraped_offices[:desired_number_of_offices]
