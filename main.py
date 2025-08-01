@@ -8,9 +8,9 @@ if __name__ == "__main__":
     # This link search for all the offices in Riyadh city 
 
     # The number of pages to scrape (each page contains 10 offices)
-    number_of_pages = 1        
+    number_of_pages = 10        
     # The number of offices to scrape
-    desired_number_of_offices = 5
+    desired_number_of_offices = 100
     # The number of the phone number to send the message to
     my_number = "+9660000000000"
     # Whether to send the message to your own number or to the offices
@@ -24,7 +24,10 @@ if __name__ == "__main__":
     scraped_offices = scrape_ejar(target_url, number_of_pages,save_to_csv=True)
     number_of_offices = len(scraped_offices)
     print(f"Total number of offices: {number_of_offices}")
-    scraped_offices = scraped_offices[:desired_number_of_offices]
+    if desired_number_of_offices < number_of_offices:
+       scraped_offices = scraped_offices[:desired_number_of_offices]
+    else:
+        print(f"Desired number of offices is greater than the number of offices scraped. Scraped {number_of_offices} offices")
     
     if send_me:
         # Send the detailed report to your own number
